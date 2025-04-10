@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Internet Speed Test</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Internet Speed Test</h1>
+    <div class="speed-section">
+      <p>Download Speed</p>
+      <div id="download" class="speed">00.00 Mbps</div>
+      <p>Upload Speed</p>
+      <div id="upload" class="speed">00.00 Mbps</div>
+    </div>
+    <button onclick="checkSpeed()">Check Speed</button>
+  </div>
+
+  <script>
+    function checkSpeed() {
+      const download = document.getElementById('download');
+      const upload = document.getElementById('upload');
+      download.textContent = "Loading...";
+      upload.textContent = "Loading...";
+
+      fetch('/speedtest')
+        .then(res => res.json())
+        .then(data => {
+          download.textContent = data.download;
+          upload.textContent = data.upload;
+        })
+        .catch(() => {
+          download.textContent = "Error";
+          upload.textContent = "Error";
+        });
+    }
+  </script>
+</body>
+</html>
